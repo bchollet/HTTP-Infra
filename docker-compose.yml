@@ -1,0 +1,10 @@
+version: "1.0"
+services:
+  appache:
+    build: ./http-static
+    ports:
+      - "9090:80"
+  nodejs:
+    build: ./http-dynamic
+    ports:
+      - "9091:3000"
