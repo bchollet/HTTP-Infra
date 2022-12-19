@@ -1,29 +1,40 @@
-# Report-part1
+# Report-part3
 
-## dockerfile
-Uses already existing image php:7.2-apache because everything needed for this lab is already installed.
-Copy the source folder containing files for static website in /var/www/html/ (server side)
+## docker-compose
+This part requires the usage of docker compose to work properly.
+Docker compose is a tool used to create and run multi-container Docker applications.
+The goal is to use different docker images and to create a container running all of these
+images.
 
-## build-image.sh
--> Create directory "src/" if not already existant.
--> Remove old files from "src/" folder
--> Copy "../src/" to "/src/" because we ware not able to go and serch in "../src/" with a relatif path
--> build image in accordance with recommandations from https://hub.docker.com/_/php/
+It is quite useful to simulate complex networking architecture.
 
-## run-container.sh
-Run a container based on the created image mapping port 9090 (localhost) to 80 (container)
+In our case, the goal is to build a container that contains the following services running :
+ - Static web server (Appache)
+ - Dynamic web server (Node JS)
+ - Load balancer (Traefik)
 
-# Docker
+To use docker compose, you need to have the required tools installed on your computer and
+to create a docker-compose.yml file containing the services' architecture instructions.
+Then, you can build and run your container with "docker compose up" (execute in the same
+folder as docker-compose.yml file).
 
-## dockerfile
-Using already existing image node:18.12.1 (latest stable version) so it contains all of the necessary tools
-Copy files from src/ to /opt/app on the container side
-Install nmp depedencies via "RUN npm install" (package.json file copied in /opt/app)
-Launch command node /opt/app/index.js at startup
+The yml file contains some information about each service that we will get through
 
-## build-image.sh
-Same process as the previous step
+The first service is Traefik. This one has the most to talk about :  
+The image is downloaded directly from docker hub [image].  
+Then a command is executedto enable traefik management console interface [command].  
+Afterwhat, port usage for classic web service as well as management web interface are set [ports].  
+The last part is to give traefik the ability to listen to Docker events [volume].
 
-## run-image.sh
-Same process as the previous step. Mapping port 9090 on 3000 on the container side.
+Next service is Appache :  
+The image is built from dockerfile made in previous parts of this lab [build].  
+Used ports are set [ports].  
+A traefik rule is set to redirect requests made to localhost/ to the appache server [label].  
+Several instances of the Appache server are made (2) [deploy].
+
+Last service is NodeJS :  
+The image is built from dockerfile made in previous parts of this lab [build].  
+Used ports are set [ports].  
+A traefik rule is set to redirect requests made to localhost/api to the nodejs server [label].  
+Several instances of the NodeJS server are made (3) [deploy].
 
