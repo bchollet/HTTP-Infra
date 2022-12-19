@@ -1,4 +1,4 @@
-version: "3.0"
+version: "4.0"
 services:
     reverse-proxy:
         image: traefik:v2.9
@@ -18,6 +18,8 @@ services:
             - "80"
         labels: 
             - "traefik.http.routers.static.rule=Host(`localhost`)"
+            - "traefik.http.services.appache-service.loadBalancer.sticky.cookie=true"
+            - "traefik.http.services.appache-service.loadBalancer.sticky.cookie.name=appache_cookie"
         deploy:
             replicas: 2
     nodejs:
