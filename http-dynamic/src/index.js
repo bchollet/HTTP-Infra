@@ -5,7 +5,7 @@ let http = require('http');
 let chance = new Chance();
 let app = express();
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.setHeader('Content-type', 'application/json');
     res.send(generateImaginaryPets());
 });
