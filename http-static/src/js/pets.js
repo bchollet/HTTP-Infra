@@ -4,25 +4,30 @@ $(function() {
         let pet = [];
         let petGender;
 
-        fetch('http://localhost/api') // Returns HTTP Response as a Promise
-            .then((response) => response.json()) // Extracts body of HTTP response as a Promise
-            .then((data) => pet = data[0]);  // Get the raw data from body
+        fetch('http://localhost/api', {
+            method: 'GET',
+        }) // Returns HTTP Response as a Promise
+            .then(response => response.json()) // Extracts body of HTTP response as a Promise
+            .then(data => { // Get the raw data from body
+                pet = data[0];
+
+                if(data?.length > 0) {
+                    $('#first-name-span').text(pet.firstName);
+                    $('#type-p').text('I am a cute little ' + pet.type);
         
-        if(pet.length > 0) {
-            $('#first-name-span').text(pet.firstName);
-            $('#type-p').text('I am a cute little ' + pet.type);
-
-            petGender = pet.gender === 'Male' ? 'assets/img/male.jpg' : 'assets/img/female.jpg';
-            console.log('path to img: ', petGender);
-
-            $('#gender-img').attr('src', petGender);
-            $('#age-p').text(pet.age);
-            $('#weight-p').text(pet.weight);
-        } else  {
-            $('#first-name-span').text('No pet loaded :(');
-        }
+                    petGender = pet.gender === 'Male' ? 'assets/img/male.jpg' : 'assets/img/female.jpg';
+        
+                    $('#gender-img').attr('src', petGender);
+                    $('#age-p').text(pet.age);
+                    $('#weight-p').text(pet.weight);
+                } else  {
+                    $('#first-name-span').text('No pet loaded :(');
+                }
+            })
+            .catch((error) => console.error(error));
     }
 
     //Function call
-    setInterval(loadPets(), 10000);
+    loadPets();
+    setInterval(loadPets, 2000);
 });
