@@ -30,3 +30,13 @@ services:
             - "traefik.http.routers.dynamic.rule=(Host(`localhost`) && PathPrefix(`/api`))"
         deploy:
             replicas: 3
+    portainer:
+        image: portainer/portainer-ce:latest
+        container_name: portainer
+        ports:
+            - "9000:9000"
+        restart: always
+        labels:
+            - "traefik.http.routers.portainer.rule=(Host(`localhost`) && PathPrefix(`/admin`))"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
