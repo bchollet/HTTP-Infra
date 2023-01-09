@@ -1,5 +1,7 @@
 # Step 1: Static HTTP server with apache httpd
+In this step, we have built a docker image containing an Apache httpd server in order to host a static web page using mostly HTML and CSS. The static website was found and the same library presented during the webcast.
 
+This is a setup step. There is not much else to present. Below, you will find our docker configuration.
 ## dockerfile
 Here's the docker file structure
 ```dockerfile
