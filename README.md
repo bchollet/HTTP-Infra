@@ -19,7 +19,7 @@ folder as docker-compose.yml file).
 
 The yml file contains some information about each service that we will get through
 
-```dockerfile
+```yaml
 version: "3.0"
 services:
     reverse-proxy:
