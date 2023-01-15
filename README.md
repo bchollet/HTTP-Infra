@@ -1,13 +1,18 @@
-# Report-part5
+# Step 6: Management UI
+
+We opted for the easiest solution here by installing an already existing app called [portainer](https://www.portainer.io/). It allows us to quickly add a whole management UI by only modifying our docker compose file. 
 
 ## Docker
-The challenge of this part is to tell Traefik to use Sticky-Session instead of round-robin
-for Appache service. Indeed, with stateful protocol, it would be better that the same session
-request always end up to the same server.  
-It is quite easy to do so with docker compose. There are only two line to add to our existing
-docker-compose.yml [appache->labal] :  
- - "traefik.http.services.appache-service.loadBalancer.sticky.cookie=true"
- - "traefik.http.services.appache-service.loadBalancer.sticky.cookie.name=appache_cookie"
 
-These line are simply telling Traefik to use a session cookie for each connexion.
-A cookie name is specified to prevent that other services uses the same auto-generated name.
+Here is what we added to create a portainer instance in our docker compose file
+
+```yaml
+    portainer:
+        image: portainer/portainer-ce:latest
+        container_name: portainer
+        ports:
+            - "9000:9000"
+        restart: always
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+```
