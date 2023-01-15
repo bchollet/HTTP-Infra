@@ -6,7 +6,7 @@ request always end up to the same server.
 It is quite easy to do so with docker compose. There are only two line to add to our existing
 docker-compose.yml [appache->label] :  
 
-```dockerfile
+```yaml
 - "traefik.http.services.appache-service.loadBalancer.sticky.cookie=true"
 - "traefik.http.services.appache-service.loadBalancer.sticky.cookie.name=appache_cookie"
 ```
@@ -16,7 +16,7 @@ A cookie name is specified to prevent that other services uses the same auto-gen
 
 Here's the full docker-compose.yml file
 
-```dockerfile
+```yaml
 version: "4.0"
 services:
     reverse-proxy:
